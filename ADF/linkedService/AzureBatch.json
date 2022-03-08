@@ -1,0 +1,16 @@
+{
+	"name": "AzureBatch",
+	"properties": {
+		"annotations": [],
+		"type": "AzureBatch",
+		"typeProperties": {
+			"batchUri": "https://dthackbatch.westcentralus.batch.azure.com",
+			"poolName": "adfpoolwindows",
+			"accountName": "dthackbatch",
+			"linkedServiceName": {
+				"referenceName": "BatchStorage",
+				"type": "LinkedServiceReference"
+			}
+		}
+	}
+}

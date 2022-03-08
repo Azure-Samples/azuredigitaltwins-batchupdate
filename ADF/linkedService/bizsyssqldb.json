@@ -1,0 +1,20 @@
+{
+	"name": "bizsyssqldb",
+	"properties": {
+		"description": "Backend Biz System Backend SQL DB",
+		"annotations": [],
+		"type": "AzureSqlDatabase",
+		"typeProperties": {
+			"connectionString": "Integrated Security=False;Encrypt=True;Connection Timeout=30;Data Source=bizsysdbserver.database.windows.net;Initial Catalog=bizsystwinDB;User ID=bizsysadmin",
+			"password": {
+				"type": "AzureKeyVaultSecret",
+				"store": {
+					"referenceName": "KeyVault",
+					"type": "LinkedServiceReference"
+				},
+				"secretName": "BizAppSQL"
+			}
+		}
+	},
+	"type": "Microsoft.DataFactory/factories/linkedservices"
+}

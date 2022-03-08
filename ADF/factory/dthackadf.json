@@ -1,0 +1,16 @@
+{
+	"name": "dthackadf",
+	"properties": {
+		"globalParameters": {
+			"digitaltwinsuri": {
+				"type": "string",
+				"value": "https://dthackadt.api.wcus.digitaltwins.azure.net"
+			},
+			"blobstorage": {
+				"type": "string",
+				"value": "https://dthackbatchstorage.blob.core.windows.net/"
+			}
+		}
+	},
+	"location": "westcentralus"
+}

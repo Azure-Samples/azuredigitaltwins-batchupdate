@@ -1,0 +1,28 @@
+{
+	"name": "OrganizationExtractDataFlow",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "OrganizationDataSet",
+						"type": "DatasetReference"
+					},
+					"name": "BusinessSystem"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "CustomActivityBlobStorage",
+						"type": "DatasetReference"
+					},
+					"name": "CustomActivityStorage"
+				}
+			],
+			"transformations": [],
+			"script": "source(output(\n\t\tOrgID as string,\n\t\tName as string,\n\t\tDivision as string,\n\t\tLocation as string\n\t),\n\tallowSchemaDrift: true,\n\tvalidateSchema: false,\n\tisolationLevel: 'READ_UNCOMMITTED',\n\tformat: 'table') ~> BusinessSystem\nBusinessSystem sink(allowSchemaDrift: true,\n\tvalidateSchema: false,\n\trowUrlColumn:'OrgID',\n\ttruncate: true,\n\tskipDuplicateMapInputs: true,\n\tskipDuplicateMapOutputs: true) ~> CustomActivityStorage"
+		}
+	}
+}

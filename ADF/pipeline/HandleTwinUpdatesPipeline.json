@@ -1,0 +1,112 @@
+{
+	"name": "HandleTwinUpdatesPipeline",
+	"properties": {
+		"activities": [
+			{
+				"name": "Get Files",
+				"type": "GetMetadata",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "7.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataset": {
+						"referenceName": "CustomActivityBlobStorage",
+						"type": "DatasetReference"
+					},
+					"fieldList": [
+						"childItems"
+					],
+					"storeSettings": {
+						"type": "AzureBlobStorageReadSettings",
+						"recursive": true,
+						"enablePartitionDiscovery": false
+					},
+					"formatSettings": {
+						"type": "JsonReadSettings"
+					}
+				}
+			},
+			{
+				"name": "For Each Twin File",
+				"type": "ForEach",
+				"dependsOn": [
+					{
+						"activity": "Get Files",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"items": {
+						"value": "@activity('Get Files').output.childitems",
+						"type": "Expression"
+					},
+					"activities": [
+						{
+							"name": "Process Twin Updates",
+							"type": "Custom",
+							"dependsOn": [],
+							"policy": {
+								"timeout": "7.00:00:00",
+								"retry": 0,
+								"retryIntervalInSeconds": 30,
+								"secureOutput": false,
+								"secureInput": false
+							},
+							"userProperties": [],
+							"typeProperties": {
+								"command": "RunActivity.bat",
+								"resourceLinkedService": {
+									"referenceName": "BatchStorage",
+									"type": "LinkedServiceReference"
+								},
+								"folderPath": "customactivity",
+								"extendedProperties": {
+									"ADT": {
+										"value": "@pipeline().globalParameters.digitaltwinsuri",
+										"type": "Expression"
+									},
+									"Storage": {
+										"value": "@pipeline().globalParameters.blobstorage",
+										"type": "Expression"
+									},
+									"Container": "inputfiles",
+									"File": {
+										"value": "@item().name",
+										"type": "Expression"
+									},
+									"Mapping": {
+										"value": "@pipeline().parameters.TwinsMappingFile",
+										"type": "Expression"
+									}
+								},
+								"referenceObjects": {
+									"linkedServices": [],
+									"datasets": []
+								}
+							},
+							"linkedServiceName": {
+								"referenceName": "AzureBatch",
+								"type": "LinkedServiceReference"
+							}
+						}
+					]
+				}
+			}
+		],
+		"parameters": {
+			"TwinsMappingFile": {
+				"type": "string"
+			}
+		},
+		"annotations": []
+	}
+}

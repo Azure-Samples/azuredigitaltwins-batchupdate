@@ -1,0 +1,14 @@
+{
+  "mapping": [
+    {
+      "Source": "$FILENAME",
+      "Target": "/AssetId",
+      "TargetType": "string"
+    },
+    {
+      "Source": "Division",
+      "Target": "/Name",
+      "TargetType": "string"
+    }
+  ]
+}

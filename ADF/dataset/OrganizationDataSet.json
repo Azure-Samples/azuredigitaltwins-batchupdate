@@ -1,0 +1,16 @@
+{
+	"name": "OrganizationDataSet",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "bizsyssqldb",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "Organization"
+		}
+	}
+}

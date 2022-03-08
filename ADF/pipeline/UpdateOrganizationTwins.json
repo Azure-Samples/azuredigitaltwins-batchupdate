@@ -1,0 +1,55 @@
+{
+	"name": "UpdateOrganizationTwins",
+	"properties": {
+		"activities": [
+			{
+				"name": "Extract Organization Data",
+				"type": "ExecuteDataFlow",
+				"dependsOn": [],
+				"policy": {
+					"timeout": "1.00:00:00",
+					"retry": 0,
+					"retryIntervalInSeconds": 30,
+					"secureOutput": false,
+					"secureInput": false
+				},
+				"userProperties": [],
+				"typeProperties": {
+					"dataflow": {
+						"referenceName": "OrganizationExtractDataFlow",
+						"type": "DataFlowReference"
+					},
+					"compute": {
+						"coreCount": 8,
+						"computeType": "General"
+					},
+					"traceLevel": "Fine"
+				}
+			},
+			{
+				"name": "Update Digital Twins",
+				"type": "ExecutePipeline",
+				"dependsOn": [
+					{
+						"activity": "Extract Organization Data",
+						"dependencyConditions": [
+							"Succeeded"
+						]
+					}
+				],
+				"userProperties": [],
+				"typeProperties": {
+					"pipeline": {
+						"referenceName": "HandleTwinUpdatesPipeline",
+						"type": "PipelineReference"
+					},
+					"waitOnCompletion": true,
+					"parameters": {
+						"TwinsMappingFile": "organizationtwinsmapping.json"
+					}
+				}
+			}
+		],
+		"annotations": []
+	}
+}

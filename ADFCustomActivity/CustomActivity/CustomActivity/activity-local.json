@@ -1,0 +1,11 @@
+{
+    "typeProperties": {
+      "extendedProperties": {
+        "ADT": "https://dthackadt.api.wcus.digitaltwins.azure.net",
+        "Storage": "https://dthackbatchstorage.blob.core.windows.net/",
+        "Container": "inputfiles",
+        "File": "org1",
+        "Mapping": "organizationtwinsmapping.json"
+      }
+    }
+}
